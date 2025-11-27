@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "538055104408",
+    "project_id": "go-drop-d7f89",
+    "storage_bucket": "go-drop-d7f89.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538055104408:android:2031cc0ea2f46500a7bded",
+        "android_client_info": {
+          "package_name": "com.example.go_drop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsq62zGzrMpr_CFPqWw_FsZ4bJRaLDch4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
