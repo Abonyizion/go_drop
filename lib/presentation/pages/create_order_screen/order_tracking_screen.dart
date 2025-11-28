@@ -20,7 +20,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
   AnimatedMapController(vsync: this);
 
   // This is always non-null
-  LatLng _driverLocation = const LatLng(9.1538486, 7.3219648); // Default: Bangalore
+  LatLng _driverLocation = const LatLng(9.1538486, 7.3219648);
   String? _driverId;
   RealtimeChannel? _channel;
 

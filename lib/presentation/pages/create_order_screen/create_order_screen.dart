@@ -39,6 +39,7 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
   }
 
   void submitOrder() {
+     FocusScope.of(context).unfocus();
     final pickup = pickupController.text.trim();
     final dropoff = dropoffController.text.trim();
     final price = double.tryParse(priceController.text.trim()) ?? 0.0;

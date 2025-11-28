@@ -30,6 +30,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final supabase = Supabase.instance.client;
 
   Future<void> registerUser() async {
+     FocusScope.of(context).unfocus();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final name = nameController.text.trim();
@@ -65,9 +66,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           context,
           title: "Success",
           content: "Account created successfully.",
-          onPressed: () {
-            context.pop();
-          },
         );
 
 

@@ -28,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
 
   Future<void> loginUser() async {
+    FocusScope.of(context).unfocus();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
@@ -37,9 +38,6 @@ class _AuthScreenState extends State<AuthScreen> {
         context,
         title: "Attention",
         content: "Email and password required.",
-        onPressed: () {
-          context.pop();
-        },
       );
       return;
     }
@@ -76,9 +74,6 @@ class _AuthScreenState extends State<AuthScreen> {
         context,
         title: "Attention",
         content: "Network error, try again",
-        onPressed: () {
-          context.pop();
-        },
       );
     }
   }
