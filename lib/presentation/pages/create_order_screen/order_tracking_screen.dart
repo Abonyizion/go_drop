@@ -78,11 +78,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
   Future<void> _loadCurrentLocation() async {
     if (_driverId == null) return;
     try {
-      final data = await Supabase.instance.client
+      final data =await Supabase.instance.client
           .from('driver_locations')
-          .select('lat, lng')
-          .eq('driver_id', _driverId!)
-          .maybeSingle();
+          .upsert({
+        'driver_id': _driverId,
+        'lat': 9.0765,  // Abuja latitude
+        'lng': 7.3986,  // Abuja longitude
+      }, onConflict: 'driver_id');
+
 
       if (data != null) {
         final lat = (data['lat'] as num).toDouble();

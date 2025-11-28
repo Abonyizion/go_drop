@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,9 +8,15 @@ import 'core/routing/app_router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Lock portrait orientation
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   await Supabase.initialize(
-    url: 'https://yqfohxprevngsntoauek.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxZm9oeHByZXZuZ3NudG9hdWVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwMDI2MDIsImV4cCI6MjA3OTU3ODYwMn0.qPCgz0j-9eHlzMicSKeT__2JnuiGpzLS0e6XAeq3C-U',
+    url: 'YOUR-SUPABASE_URL',
+    anonKey: 'YOUR-SUPABASE_ANON_KEY',
   );
 
   runApp(const MyApp());
