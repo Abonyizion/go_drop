@@ -1,56 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_drop/core/constants/general_constants.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/constants/app_colors.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/routing/app_router.dart';
-import '../../widgets/custom_button.dart';
 
-
-
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start fade-in after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _runAnimation();
+    });
+  }
+
+  Future<void> _runAnimation() async {
+    final session = Supabase.instance.client.auth.currentSession;
+
+    // 1️⃣ Fade in
+    setState(() => _opacity = 1.0);
+    await Future.delayed(const Duration(seconds: 2));
+
+    // If user is logged in → fade out and go home
+    if (session != null) {
+      await _fadeOutAndNavigate(AppRouter.orderCreation);
+      return;
+    }
+
+    // 2️⃣ Hold after fade-in
+    await Future.delayed(const Duration(seconds: 2));
+
+    // 3️⃣ Fade out and go to login
+    await _fadeOutAndNavigate(AppRouter.login);
+  }
+
+  Future<void> _fadeOutAndNavigate(String route) async {
+    if (!mounted) return;
+
+    // Fade out
+    setState(() => _opacity = 0.0);
+    await Future.delayed(const Duration(seconds: 1));
+
+    // Navigate after fade-out
+    if (!mounted) return;
+    context.go(route);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: GeneralConstants.scaffoldPadding,
-        decoration: BoxDecoration(
-          color: AppColors.deepNavyBlue,
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.jpg'),  // Background per slide
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                  height: 70.h),
-              Expanded(
-                child: Text(
-                    "Your Delivery, \nJust a Tap Away",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 40.sp,
-                      color: AppColors.buttonBg,
-                    ),
-                  ),
-              ),
-              SizedBox(
-                  height: 80.h),
-              CustomButton(
-                text: "Get Started",
-                onTap: () => context.go(AppRouter.login),
-                textColor: AppColors.white,
-                bgColor:  AppColors.buttonBg,
-              ),
-              SizedBox(
-                  height: 80.h),
-
-            ],
+      body: AnimatedOpacity(
+        opacity: _opacity,
+        duration: const Duration(seconds: 2),
+        curve: Curves.easeInOut,
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background.jpg'),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
